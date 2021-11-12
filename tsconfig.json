@@ -10,5 +10,11 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts", "src/fetch.ts", "src/express.ts"],
+    "out": "docs",
+    "readme": "none",
+    "githubPages": false
+  }
 }

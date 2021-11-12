@@ -3,6 +3,8 @@
 # zhttp
 A small library that brings [`zod`][zod], [`express`][express], and [`static-path`][static-path] together to create type safe HTTP endpoints for clients and servers.
 
+* [Reference](./docs)
+
 ## Example
 Define your endpoints somewhere that both your client and server can import from.
 
