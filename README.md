@@ -1,3 +1,5 @@
+[![Test](https://github.com/danprince/typesafe-endpoints/actions/workflows/test.yml/badge.svg)](https://github.com/danprince/typesafe-endpoints/actions/workflows/test.yml)
+
 # Typesafe Endpoints
 A small library that brings [`express`][express], [`zod`][zod], and [`static-path`][static-path] together to create type safe API endpoints across client and server.
 
