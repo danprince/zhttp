@@ -1,30 +1,31 @@
-[![Test](https://github.com/danprince/typesafe-endpoints/actions/workflows/test.yml/badge.svg)](https://github.com/danprince/typesafe-endpoints/actions/workflows/test.yml)
+[![Test](https://github.com/danprince/zhttp/actions/workflows/test.yml/badge.svg)](https://github.com/danprince/zhttp/actions/workflows/test.yml)
 
-# Typesafe Endpoints
-A small library that brings [`express`][express], [`zod`][zod], and [`static-path`][static-path] together to create type safe API endpoints across client and server.
+# zhttp
+A small library that brings [`zod`][zod], [`express`][express], and [`static-path`][static-path] together to create type safe HTTP endpoints for clients and servers.
 
 ## Example
-
-Start off by defining your endpoints somewhere that your client and server can both import from.
+Define your endpoints somewhere that both your client and server can import from.
 
 ```ts
-// ./shared/endpoints.ts
-import { endpoint } from "typesafe-endpoints";
+// shared/endpoints.ts
+import { endpoint } from "zhttp";
 import { z } from "zod";
 import { path } from "path";
 
 export let sendMessage = endpoint({
-  // Use static-path to define a typesafe path
+  // static-path definition
   path: path("/message/:to"),
+
+  // "post" | "get" | "patch" | "put" | "delete" | "head"
   method: "post",
 
-  // Use zod to describe request body schema
+  // zod request body schema
   request: z.object({
     subject: z.string(),
     text: z.string(),
   }),
 
-  // Use zod to describe response body schema
+  // zod response body schema
   response: z.object({
     status: z.union([
       z.literal("success"),
@@ -35,11 +36,11 @@ export let sendMessage = endpoint({
 });
 ```
 
-Then create server side route handlers for this endpoint.
+Then create corresponding server side route handlers.
 
 ```ts
-// ./server/routes.ts
-import { createRouter } from "typesafe-endpoints/express";
+// server/routes.ts
+import { createRouter } from "zhttp/express";
 import { sendMessage } from "../shared/endpoints";
 
 let router = createRouter();
@@ -60,8 +61,8 @@ router.use(sendMessage, async (req, res) => {
 And finally, the client side.
 
 ```ts
-// ./client/index.ts
-import { fetchJson } from "typesafe-endpoints/fetch";
+// client/index.ts
+import { fetchJson } from "zhttp/fetch";
 import { sendMessage } from "../shared/endpoints";
 
 let res = await fetchJson(sendMessage, {
@@ -77,11 +78,11 @@ res.status
 ```
 
 ## Creating a Client
-If you export multiple endpoints from a single module, then you can use `createClient` to create a fetch client with automatically created methods.
+You can use `createClient` to create a client from a module which exports endpoints.
 
 ```ts
-// ./shared/endpoints/account.ts
-import { endpoint } from "typesafe-endpoints";
+// shared/endpoints/account.ts
+import { endpoint } from "zhttp";
 
 export const create = endpoint({
   path: path("/account"),
@@ -108,14 +109,13 @@ export const delete = endpoint({
 Then create the client in your client-side codebase:
 
 ```ts
-// ./client/example.ts
+// client/example.ts
+import { createClient } from "zhttp/fetch";
 import * as accountEndpoints from "../shared/endpoints/account"
-import { createClient } from "typesafe-endpoints/fetch";
 
 export const Accounts = createClient(accountEndpoints);
 
 let account = await Accounts.create({
-  params: {},
   body: { email: "example@test.com" },
 });
 
@@ -126,7 +126,6 @@ account = await Accounts.update({
 
 await Accounts.delete({
   params: { id: account.id },
-  body: {},
 });
 ```
 
@@ -139,7 +138,7 @@ If, however, you allow untyped data to go over the network, then server side mid
 The router can accept type safe middleware, in addition to the normal handler.
 
 ```ts
-router.use(someEndpoint, someMiddleware, async (req, res) => {
+router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
   // ...
 });
 ```
