@@ -39,7 +39,6 @@ test("endpoint with middleware", async () => {
     let response = await fetchJson(doubleIfPositive, {
       baseUrl,
       body: { input: 1 },
-      params: {},
     });
 
     assert.equal(response, { output: 2 });
@@ -49,7 +48,6 @@ test("endpoint with middleware", async () => {
     let response = await fetchJson(doubleIfPositive, {
       baseUrl,
       body: { input: -4 },
-      params: {},
     });
 
     assert.equal(response, { output: 0 });

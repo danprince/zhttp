@@ -27,7 +27,6 @@ test("endpoint with headers", async () => {
     baseUrl,
     headers: { "vince": "noire" },
     body: {},
-    params: {},
   });
 
   assert.equal(response["vince"], "noire");

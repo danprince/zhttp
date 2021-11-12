@@ -45,7 +45,6 @@ test("simple client", async () => {
   {
     let response = await client.triple({
       body: { input: 1 },
-      params: {},
     });
 
     assert.equal(response, { output: 3 });
