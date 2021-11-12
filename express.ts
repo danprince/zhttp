@@ -26,15 +26,19 @@ export function createRouter(router = PromiseRouter()) {
     >[]
   ) => {
     const validate: Express.RequestHandler = (req, res, next) => {
-      const result = endpoint.request.safeParse(req.body);
+      // Check whether this endpoint should validate request body
+      if ("request" in endpoint) {
+        const result = endpoint.request.safeParse(req.body);
 
-      if (result.success === false) {
-        return res.status(400).json({
-          errors: result.error.issues,
-        });
+        if (result.success === false) {
+          return res.status(400).json({
+            errors: result.error.issues,
+          });
+        }
+
+        req.body = result.data;
       }
 
-      req.body = result.data;
       return next();
     };
 

@@ -1,5 +1,5 @@
 import { Params } from "static-path";
-import { Endpoint, HttpMethod } from "./endpoint";
+import { Endpoint, HttpMethod, HttpMethodWithBody } from "./endpoint";
 
 interface FetchDefaults {
   baseUrl: string;
@@ -12,11 +12,11 @@ type FetchOptions<
   Method extends HttpMethod,
   Request,
 > = Partial<FetchDefaults> & (
-  Method extends "get" | "head" ? {
-    params: Params<Pattern>;
-  } : {
+  Method extends HttpMethodWithBody ? {
     params: Params<Pattern>;
     body: Request;
+  } : {
+    params: Params<Pattern>;
   }
 );
 

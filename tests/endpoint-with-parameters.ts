@@ -10,7 +10,6 @@ import { listen } from "./_helpers";
 let sayHello = endpoint({
   path: path("/hello/:name"),
   method: "get",
-  request: z.any(),
   response: z.object({
     message: z.string(),
   }),
