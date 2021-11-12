@@ -1,5 +1,5 @@
 import express from "express";
-import { createRouter } from "../express";
+import { createRouter } from "../src/express";
 import { default as fetch, Headers, Request, Response } from 'node-fetch';
 import { promisify } from "util";
 

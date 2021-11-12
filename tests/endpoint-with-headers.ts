@@ -2,9 +2,9 @@ import { test } from "uvu";
 import * as assert from "uvu/assert";
 import { path } from "static-path";
 import { z } from "zod";
-import { fetchJson } from "../fetch";
-import { createRouter } from "../express";
-import { endpoint } from "../endpoint";
+import { fetchJson } from "../src/fetch";
+import { createRouter } from "../src/express";
+import { endpoint } from "../src";
 import { listen } from "./_helpers";
 
 let echoHeaders = endpoint({

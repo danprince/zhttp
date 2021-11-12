@@ -1,5 +1,5 @@
 import { Params } from "static-path";
-import { Endpoint, HttpMethod, HttpMethodWithoutBody } from "./endpoint";
+import { Endpoint, HttpMethod, HttpMethodWithoutBody } from ".";
 
 interface FetchDefaults {
   baseUrl: string;

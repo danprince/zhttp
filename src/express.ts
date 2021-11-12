@@ -1,6 +1,6 @@
 import Express from "express";
 import { Params } from "static-path";
-import { Endpoint, HttpMethod } from "./endpoint";
+import { Endpoint, HttpMethod } from ".";
 import PromiseRouter from "express-promise-router";
 
 export type Middleware<E extends Endpoint<any, any, any, any>> =
