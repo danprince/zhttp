@@ -1,5 +1,5 @@
 import { Params } from "static-path";
-import { Endpoint, HttpMethod, HttpMethodWithBody } from "./endpoint";
+import { Endpoint, HttpMethod, HttpMethodWithoutBody } from "./endpoint";
 
 interface FetchDefaults {
   baseUrl: string;
@@ -11,13 +11,12 @@ type FetchOptions<
   Pattern extends string,
   Method extends HttpMethod,
   Request,
-> = Partial<FetchDefaults> & (
-  Method extends HttpMethodWithBody ? {
-    params: Params<Pattern>;
-    body: Request;
-  } : {
-    params: Params<Pattern>;
-  }
+> = (
+  Partial<FetchDefaults> &
+  // Only include the params key if the pattern actually has params
+  (keyof Params<Pattern> extends never ? {} : { params: Params<Pattern> }) &
+  // Only include the body key if the http method can accept a body
+  (Method extends HttpMethodWithoutBody ? {} : { body: Request })
 );
 
 const defaultOptions: FetchDefaults = {
@@ -46,14 +45,14 @@ export async function fetchJson<
 ): Promise<Response> {
   let {
     baseUrl,
-    params,
     headers,
     body = undefined,
+    params = {},
     options: extraFetchOptions,
   } = { ...defaultOptions, ...options };
 
   // Construct full url from base url and parameterized path
-  let path = endpoint.path(params);
+  let path = endpoint.path(params as Params<Pattern>);
   let url = new URL(path, baseUrl).toString();
 
   let init: RequestInit = {

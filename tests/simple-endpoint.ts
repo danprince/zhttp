@@ -33,7 +33,6 @@ test("simple endpoint", async () => {
     let response = await fetchJson(add, {
       baseUrl,
       body: { lhs: 1, rhs: 2 },
-      params: {},
     });
 
     assert.equal(response, { result : 3 });
@@ -45,7 +44,6 @@ test("simple endpoint", async () => {
         baseUrl,
         // @ts-expect-error
         body: { lhs: "1", rhs: 2 },
-        params: {},
       });
     } catch (err: any) {
       assert.instance(err, ValidationError);
@@ -65,7 +63,6 @@ test("simple endpoint", async () => {
     let response = await fetchJson(add, {
       baseUrl,
       body: { lhs: 1, rhs: 2 },
-      params: {},
     });
 
     // @ts-expect-error

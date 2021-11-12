@@ -44,7 +44,7 @@ test("endpoint without body", async () => {
   }
 
   {
-    let response = await fetchJson(time, { baseUrl, params: {} });
+    let response = await fetchJson(time, { baseUrl });
     assert.is(typeof response.time, "number");
   }
 
