@@ -1,4 +1,4 @@
-[zhttp](../README.md) / [fetch](../modules/fetch.md) / ValidationError
+[@danprince/zhttp](../README.md) / [fetch](../modules/fetch.md) / ValidationError
 
 # Class: ValidationError
 
@@ -39,7 +39,7 @@
 
 | Name | Type |
 | :------ | :------ |
-| `issues` | `any` |
+| `issues` | `ZodIssue`[] |
 
 #### Overrides
 
@@ -47,13 +47,13 @@ Error.constructor
 
 #### Defined in
 
-[src/fetch.ts:31](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/fetch.ts#L31)
+[src/fetch.ts:32](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/fetch.ts#L32)
 
 ## Properties
 
 ### issues
 
-• **issues**: `any`
+• **issues**: `ZodIssue`[]
 
 ___
 

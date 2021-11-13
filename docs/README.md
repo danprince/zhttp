@@ -1,6 +1,6 @@
-zhttp
+@danprince/zhttp
 
-# zhttp
+# @danprince/zhttp
 
 ## Table of contents
 

@@ -1,4 +1,4 @@
-[zhttp](../README.md) / express
+[@danprince/zhttp](../README.md) / express
 
 # Module: express
 
@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[src/express.ts:6](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/express.ts#L6)
+[src/express.ts:6](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/express.ts#L6)
 
 ## Functions
 
@@ -51,4 +51,4 @@
 
 #### Defined in
 
-[src/express.ts:10](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/express.ts#L10)
+[src/express.ts:10](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/express.ts#L10)

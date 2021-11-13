@@ -1,4 +1,4 @@
-[zhttp](../README.md) / index
+[@danprince/zhttp](../README.md) / index
 
 # Module: index
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[src/index.ts:8](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/index.ts#L8)
+[src/index.ts:8](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L8)
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:6](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/index.ts#L6)
+[src/index.ts:6](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L6)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:5](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/index.ts#L5)
+[src/index.ts:5](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L5)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:4](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/index.ts#L4)
+[src/index.ts:4](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L4)
 
 ## Functions
 
@@ -91,4 +91,4 @@ ___
 
 #### Defined in
 
-[src/index.ts:20](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/index.ts#L20)
+[src/index.ts:20](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L20)

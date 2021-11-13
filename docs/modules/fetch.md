@@ -1,4 +1,4 @@
-[zhttp](../README.md) / fetch
+[@danprince/zhttp](../README.md) / fetch
 
 # Module: fetch
 
@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[src/fetch.ts:92](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/fetch.ts#L92)
+[src/fetch.ts:93](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/fetch.ts#L93)
 
 ___
 
@@ -68,4 +68,4 @@ ___
 
 #### Defined in
 
-[src/fetch.ts:37](https://github.com/danprince/typesafe-endpoints/blob/1472ec3/src/fetch.ts#L37)
+[src/fetch.ts:38](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/fetch.ts#L38)
