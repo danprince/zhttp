@@ -1,6 +1,6 @@
 {
   "name": "@danprince/zhttp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -21,8 +21,12 @@
   },
   "typesVersions": {
     "*": {
-      "express": ["./dist/types/express.js"],
-      "fetch": ["./dist/types/fetch.js"]
+      "express": [
+        "./dist/types/express.js"
+      ],
+      "fetch": [
+        "./dist/types/fetch.js"
+      ]
     }
   },
   "scripts": {

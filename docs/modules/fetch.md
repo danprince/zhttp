@@ -43,7 +43,7 @@ method.
 
 #### Defined in
 
-[src/fetch.ts:21](https://github.com/danprince/zhttp/blob/45ef93c/src/fetch.ts#L21)
+[src/fetch.ts:21](https://github.com/danprince/zhttp/blob/ae945e4/src/fetch.ts#L21)
 
 ## Functions
 
@@ -70,7 +70,7 @@ method.
 
 #### Defined in
 
-[src/fetch.ts:161](https://github.com/danprince/zhttp/blob/45ef93c/src/fetch.ts#L161)
+[src/fetch.ts:161](https://github.com/danprince/zhttp/blob/ae945e4/src/fetch.ts#L161)
 
 ___
 
@@ -136,4 +136,4 @@ Parsed server response body
 
 #### Defined in
 
-[src/fetch.ts:94](https://github.com/danprince/zhttp/blob/45ef93c/src/fetch.ts#L94)
+[src/fetch.ts:94](https://github.com/danprince/zhttp/blob/ae945e4/src/fetch.ts#L94)
