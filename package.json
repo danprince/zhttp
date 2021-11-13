@@ -29,10 +29,12 @@
     "build:cjs": "tsc --outDir dist/cjs --module commonjs",
     "build:esm": "tsc --outDir dist/esm --module es2015",
     "build:types": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
-    "build": "npm run build:types && npm run build:cjs && npm run build:esm",
+    "build": "rm -r dist && npm run build:types && npm run build:cjs && npm run build:esm",
     "pretest": "tsc --noEmit",
     "test": "uvu -r tsm tests",
-    "prepublishOnly": "npm run test && rm -r dist && npm run build && npm run docs",
+    "preversion": "npm test",
+    "version": "npm run build && npm run docs && git add docs",
+    "postversion": "git push && git push --tags && rm -r dist",
     "docs": "typedoc"
   },
   "dependencies": {
