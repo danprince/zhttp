@@ -41,7 +41,7 @@ let withAuth: RequestHandler<typeof logout> = (req, res) => {
 
 #### Defined in
 
-[src/express.ts:21](https://github.com/danprince/zhttp/blob/ae945e4/src/express.ts#L21)
+[src/express.ts:21](https://github.com/danprince/zhttp/blob/94de2ce/src/express.ts#L21)
 
 ## Functions
 
@@ -81,4 +81,4 @@ A typed router
 
 #### Defined in
 
-[src/express.ts:82](https://github.com/danprince/zhttp/blob/ae945e4/src/express.ts#L82)
+[src/express.ts:82](https://github.com/danprince/zhttp/blob/94de2ce/src/express.ts#L82)

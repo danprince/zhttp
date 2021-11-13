@@ -50,7 +50,7 @@ Error.constructor
 
 #### Defined in
 
-[src/fetch.ts:50](https://github.com/danprince/zhttp/blob/ae945e4/src/fetch.ts#L50)
+[src/fetch.ts:50](https://github.com/danprince/zhttp/blob/94de2ce/src/fetch.ts#L50)
 
 ## Properties
 
