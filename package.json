@@ -38,7 +38,8 @@
     "test": "uvu -r tsm tests",
     "preversion": "npm test",
     "version": "npm run build && npm run docs && git add docs",
-    "postversion": "git push && git push --tags && rm -r dist",
+    "postversion": "git push && git push --tags",
+    "postpublish": "rm -r dist",
     "docs": "typedoc"
   },
   "dependencies": {
