@@ -7,25 +7,29 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
     },
     "./express": {
       "import": "./dist/esm/express.js",
-      "require": "./dist/cjs/express.js"
+      "require": "./dist/cjs/express.js",
+      "types": "./dist/types/express.d.ts"
     },
     "./fetch": {
       "import": "./dist/esm/fetch.js",
-      "require": "./dist/cjs/fetch.js"
+      "require": "./dist/cjs/fetch.js",
+      "types": "./dist/types/fetch.d.ts"
     }
   },
   "scripts": {
     "prepare": "husky install",
     "build:cjs": "tsc --outDir dist/cjs --module commonjs",
     "build:esm": "tsc --outDir dist/esm --module es2015",
-    "build": "npm run build:cjs && npm run build:esm",
+    "build:types": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
+    "build": "npm run build:types && npm run build:cjs && npm run build:esm",
     "pretest": "tsc --noEmit",
     "test": "uvu -r tsm tests",
-    "prepublishOnly": "npm run test",
+    "prepublishOnly": "npm run test && rm -r dist && npm run build",
     "docs": "typedoc"
   },
   "dependencies": {
