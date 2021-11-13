@@ -1,5 +1,5 @@
 {
-  "name": "zhttp",
+  "name": "@danprince/zhttp",
   "version": "0.0.0",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -34,7 +34,6 @@
     "uvu": "^0.5.2"
   },
   "files": [
-    "dist",
-    "README.md"
+    "dist"
   ]
 }

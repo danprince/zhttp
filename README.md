@@ -7,9 +7,9 @@ A small library that brings [`zod`][zod], [`express`][express], and [`static-pat
 Install `zhttp` and `express`.
 
 ```sh
-npm i zhttp express
+npm i @danprince/zhttp express
 # or
-yarn add zhttp express
+yarn add @danprince/zhttp express
 ```
 
 - `static-path` requires `typescript@^4.1` (for [template literal types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html))
@@ -20,7 +20,7 @@ Define your endpoints somewhere that both your client and server can import from
 
 ```ts
 // shared/endpoints.ts
-import { endpoint } from "zhttp";
+import { endpoint } from "@danprince/zhttp";
 import { z } from "zod";
 import { path } from "path";
 
@@ -52,7 +52,7 @@ Then create corresponding server side route handlers.
 
 ```ts
 // server/routes.ts
-import { createRouter } from "zhttp/express";
+import { createRouter } from "@danprince/zhttp/express";
 import { sendMessage } from "../shared/endpoints";
 
 let router = createRouter();
@@ -74,7 +74,7 @@ And finally, the client side.
 
 ```ts
 // client/index.ts
-import { fetchJson } from "zhttp/fetch";
+import { fetchJson } from "@danprince/zhttp/fetch";
 import { sendMessage } from "../shared/endpoints";
 
 let res = await fetchJson(sendMessage, {
@@ -95,7 +95,7 @@ You can create a client from a module which exports endpoints.
 
 ```ts
 // shared/endpoints/account.ts
-import { endpoint } from "zhttp";
+import { endpoint } from "@danprince/zhttp";
 
 export const create = endpoint({
   path: path("/account"),
@@ -123,7 +123,7 @@ Then create the client in your client-side codebase:
 
 ```ts
 // client/example.ts
-import { createClient } from "zhttp/fetch";
+import { createClient } from "@danprince/zhttp/fetch";
 import * as accountEndpoints from "../shared/endpoints/account"
 
 export const Accounts = createClient(accountEndpoints);
