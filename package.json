@@ -2,14 +2,27 @@
   "name": "@danprince/zhttp",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
-    "express": "./dist/express.js",
-    "fetch": "./dist/fetch.js"
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./express": {
+      "import": "./dist/esm/express.js",
+      "require": "./dist/cjs/express.js"
+    },
+    "./fetch": {
+      "import": "./dist/esm/fetch.js",
+      "require": "./dist/cjs/fetch.js"
+    }
   },
   "scripts": {
     "prepare": "husky install",
-    "build": "tsc",
+    "build:cjs": "tsc --outDir dist/cjs --module commonjs",
+    "build:esm": "tsc --outDir dist/esm --module es2015",
+    "build": "npm run build:cjs && npm run build:esm",
     "pretest": "tsc --noEmit",
     "test": "uvu -r tsm tests",
     "prepublishOnly": "npm run test",
