@@ -12,7 +12,8 @@
     "build": "tsc",
     "pretest": "tsc --noEmit",
     "test": "uvu -r tsm tests",
-    "prepublishOnly": "npm run test"
+    "prepublishOnly": "npm run test",
+    "docs": "typedoc"
   },
   "dependencies": {
     "express-promise-router": "^4.1.0",
