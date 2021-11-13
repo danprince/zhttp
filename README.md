@@ -1,5 +1,3 @@
-[![Test](https://github.com/danprince/zhttp/actions/workflows/test.yml/badge.svg)](https://github.com/danprince/zhttp/actions/workflows/test.yml)
-
 # zhttp
 A small library that brings [`zod`][zod], [`express`][express], and [`static-path`][static-path] together to create type safe HTTP endpoints for clients and servers.
 
