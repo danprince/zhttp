@@ -129,13 +129,44 @@ await Accounts.delete({
 });
 ```
 
-## Validation Errors
-Assuming you're well behaved with `any`, the type system will enforce validation and you won't see any errors.
+## Fetch Options
+It's possible to override the default fetch options for a given request.
 
-If, however, you allow untyped data to go over the network, then server side middleware will catch it before making it into your route handlers and a client side `ValidationError` will be thrown.
+```ts
+fetchJson(endpoint, {
+  // Base url for all this request (defaults to /)
+  baseUrl: "http://localhost:3000/api",
+
+  // Headers to pass for all requests
+  headers: {},
+
+  // Fetch options (second argument to fetch)
+  options: {},
+});
+```
+
+It's also possible to set default options for all client requests.
+
+```ts
+createClient(endpoints, {
+  // Base url for all requests (defaults to /)
+  baseUrl: "http://localhost:3000/api",
+
+  // Headers to pass for all requests
+  headers: {},
+
+  // Fetch options (second argument to fetch)
+  options: {},
+});
+```
+
+## Validation Errors
+The type system will usually enforce validation and you won't see any errors.
+
+However, if you allow untyped data to go over the network, then server side middleware will catch it before making it into your route handlers and a client side `ValidationError` will be thrown.
 
 ## Middleware
-The router can accept type safe middleware, in addition to the normal handler.
+The router can accept standard Express middleware before the request handler.
 
 ```ts
 router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
@@ -143,13 +174,7 @@ router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
 });
 ```
 
-## Client/Server Code Sharing 
-Setting up a mechanism to share code between your client/server codebases can be the trickiest part of making this work.
-
-Here are some strategies:
-- [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces)
-- [Lerna Monorepos](https://github.com/lerna/lerna)
-- [Yarn with `link:`](https://classic.yarnpkg.com/lang/en/docs/cli/add/#toc-adding-dependencies)
+Note: The `Express.json()` middleware is automatically added to each route.
 
 [express]: https://github.com/expressjs/express
 [zod]: https://github.com/colinhacks/zod
