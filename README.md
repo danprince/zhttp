@@ -3,6 +3,18 @@ A small library that brings [`zod`][zod], [`express`][express], and [`static-pat
 
 * [Reference](./docs)
 
+## Getting Started
+Install `zhttp` and `express`.
+
+```sh
+npm i zhttp express
+# or
+yarn add zhttp express
+```
+
+- `static-path` requires `typescript@^4.1` (for [template literal types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html))
+- `zod` requires you to run TypeScript in [strict mode](https://www.typescriptlang.org/tsconfig#strict).
+
 ## Example
 Define your endpoints somewhere that both your client and server can import from.
 
@@ -78,7 +90,8 @@ res.status
 ```
 
 ## Creating a Client
-You can use `createClient` to create a client from a module which exports endpoints.
+
+You can create a client from a module which exports endpoints.
 
 ```ts
 // shared/endpoints/account.ts
@@ -160,11 +173,6 @@ createClient(endpoints, {
 });
 ```
 
-## Validation Errors
-The type system will usually enforce validation and you won't see any errors.
-
-However, if you allow untyped data to go over the network, then server side middleware will catch it before making it into your route handlers and a client side `ValidationError` will be thrown.
-
 ## Middleware
 The router can accept standard Express middleware before the request handler.
 
@@ -174,7 +182,12 @@ router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
 });
 ```
 
-Note: The `Express.json()` middleware is automatically added to each route.
+Note: The [`Express.json()`](http://expressjs.com/en/api.html#express.json) middleware is automatically added to each route.
+
+## Validation Errors
+The type system will usually enforce validation and you won't see any errors.
+
+However, if you allow untyped data to go over the network, then server side middleware will catch it before making it into your route handlers and a client side [`ValidationError`](./docs/classes/fetch.ValidationError.md) will be thrown.
 
 [express]: https://github.com/expressjs/express
 [zod]: https://github.com/colinhacks/zod
