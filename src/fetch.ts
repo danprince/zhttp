@@ -2,13 +2,23 @@ import { Params } from "static-path";
 import { ZodIssue } from "zod";
 import { Endpoint, HttpMethod, HttpMethodWithoutBody } from ".";
 
-interface FetchDefaults {
+/**
+ * Default options for all fetch methods.
+ */
+export interface FetchDefaults {
   baseUrl: string;
   headers: HeadersInit;
   options: RequestInit;
 }
 
-type FetchOptions<
+/**
+ * Complete set of options for a given request, based on the parameters and the
+ * method.
+ * 
+ * - GET/HEAD methods won't allow a `body` property.
+ * - Paths without any parameters won't allow a `params` property.
+ */
+export type FetchOptions<
   Pattern extends string,
   Method extends HttpMethod,
   Request,
@@ -20,6 +30,10 @@ type FetchOptions<
   (Method extends HttpMethodWithoutBody ? {} : { body: Request })
 );
 
+/**
+ * These are the default options that will be merged into all fetch requests.
+ * They can be overriden.
+ */
 const defaultOptions: FetchDefaults = {
   baseUrl: "/",
   headers: {
@@ -28,6 +42,10 @@ const defaultOptions: FetchDefaults = {
   options: {},
 };
 
+/**
+ * Error class that will be thrown if server-side validation fails a given
+ * fetch request.
+ */
 export class ValidationError extends Error {
   constructor(public issues: ZodIssue[]) {
     super();
@@ -35,6 +53,44 @@ export class ValidationError extends Error {
   }
 }
 
+/**
+ * Fetches JSON from an endpoint.
+ * @param endpoint A zhttp endpoint
+ * @param options Request options
+ * @returns Parsed server response body
+ * 
+ * @example Fetching from an endpoint
+ * ```ts
+ * let response = await fetchJson(someEndpoint, {
+ *   baseUrl: "/", // default baseUrl
+ *   headers: { "Content-type": "application/json" } // default headers
+ *   options: {}, // default fetch options
+ * });
+ * ```
+ * 
+ * @example Passing custom headers
+ * ```ts
+ * let response = fetchJson(someEndpoint, {
+ *   headers: {
+ *     "Content-type": "application/json",
+ *     "Authentication": "Basic XXYYZZ"
+ *   }
+ * });
+ * ```
+ * Note: Any passed headers will override the default headers, so ensure that
+ * a `"Content-type": "application/json"` header is present.
+ * 
+ * @example Custom fetch options
+ * ```ts
+ * let response = await fetchJson(someEndpoint, {
+ *   options: {
+ *     mode: "cors",
+ *     credentials: "include"
+ *   },
+ * });
+ * ```
+ * These options are passed directly to the request options for `fetch`.
+ */
 export async function fetchJson<
   Pattern extends string,
   Method extends HttpMethod,
@@ -74,6 +130,9 @@ export async function fetchJson<
   return data;
 }
 
+/**
+ * Describes a client object
+ */
 type Client<Exports> = {
   [K in keyof Exports as Exports[K] extends Endpoint<any, any, any, any> ? K : never]:
     Exports[K] extends Endpoint<infer Pattern, infer Method, infer Request, infer Response>
@@ -81,6 +140,9 @@ type Client<Exports> = {
       : never;
 };
 
+/**
+ * 
+ */
 type ClientFetch<
   Pattern extends string,
   Method extends HttpMethod,
@@ -90,6 +152,12 @@ type ClientFetch<
   options: FetchOptions<Pattern, Method, Request>
 ) => Promise<Response>;
 
+/**
+ * 
+ * @param exports 
+ * @param defaults 
+ * @returns 
+ */
 export function createClient<Exports extends Record<string, any>>(
   exports: Exports,
   defaults?: Partial<FetchDefaults>,

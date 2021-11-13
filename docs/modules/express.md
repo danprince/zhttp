@@ -2,11 +2,17 @@
 
 # Module: express
 
+Helpers for using zhttp endpoints with Express.
+
 ## Table of contents
+
+### Interfaces
+
+- [Router](../interfaces/express.Router.md)
 
 ### Type aliases
 
-- [Middleware](express.md#middleware)
+- [RequestHandler](express.md#requesthandler)
 
 ### Functions
 
@@ -14,9 +20,18 @@
 
 ## Type aliases
 
-### Middleware
+### RequestHandler
 
-Ƭ **Middleware**<`E`\>: `E` extends [`Endpoint`](index.md#endpoint)<infer Pattern, `any`, infer Request, infer Response\> ? `Express.RequestHandler`<`Params`<`Pattern`\>, `Response`, `Request`\> : `never`
+Ƭ **RequestHandler**<`E`\>: `E` extends [`Endpoint`](index.md#endpoint)<infer Pattern, `any`, infer Request, infer Response\> ? `Express.RequestHandler`<`Params`<`Pattern`\>, `Response`, `Request`\> : `never`
+
+Helper type that will infer the correct type for an endpoint request handler.
+
+**`example`**
+```ts
+let withAuth: RequestHandler<typeof logout> = (req, res) => {
+  // req, res are typed for the logout endpoint
+};
+```
 
 #### Type parameters
 
@@ -26,29 +41,44 @@
 
 #### Defined in
 
-[src/express.ts:6](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/express.ts#L6)
+[src/express.ts:21](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/express.ts#L21)
 
 ## Functions
 
 ### createRouter
 
-▸ **createRouter**(`router?`): `Object`
+▸ **createRouter**(`expressRouter?`): [`Router`](../interfaces/express.Router.md)
+
+**`example`** Creating a router
+
+```ts
+let router = createRouter(); 
+router.use(endpoint, (req, res) => {});
+```
+
+**`example`** Using an existing router
+
+```ts
+// router is an existing Express.Router
+let { use } = createRouter(router);
+
+router.post(...);
+use(endpoint, (req, res) => {});
+router.post(...);
+```
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `router` | `Router` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `expressRouter` | `Router` | Optional instance of an Express.Router to use |
 
 #### Returns
 
-`Object`
+[`Router`](../interfaces/express.Router.md)
 
-| Name | Type |
-| :------ | :------ |
-| `routes` | () => `Router` |
-| `use` | <Pattern, Method, Request, Response, Query, Locals\>(`endpoint`: [`Endpoint`](index.md#endpoint)<`Pattern`, `Method`, `Request`, `Response`\>, ...`handlers`: `RequestHandler`<`Params`<`Pattern`\>, `Response`, `Request`, `Query`, `Locals`\>[]) => `void` |
+A typed router
 
 #### Defined in
 
-[src/express.ts:10](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/express.ts#L10)
+[src/express.ts:82](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/express.ts#L82)

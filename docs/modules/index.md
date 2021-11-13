@@ -21,6 +21,10 @@
 
 Ƭ **Endpoint**<`Pattern`, `Method`, `Request`, `Response`\>: `Method` extends [`HttpMethodWithBody`](index.md#httpmethodwithbody) ? { `method`: `Method` ; `path`: `Path`<`Pattern`\> ; `request`: `z.ZodType`<`Request`\> ; `response`: `z.ZodType`<`Response`\>  } : { `method`: `Method` ; `path`: `Path`<`Pattern`\> ; `response`: `z.ZodType`<`Response`\>  }
 
+Definition for a typed HTTP endpoint.
+
+{@see endpoint}
+
 #### Type parameters
 
 | Name | Type |
@@ -32,7 +36,7 @@
 
 #### Defined in
 
-[src/index.ts:8](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L8)
+[src/index.ts:13](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/index.ts#L13)
 
 ___
 
@@ -42,7 +46,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:6](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L6)
+[src/index.ts:6](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/index.ts#L6)
 
 ___
 
@@ -52,7 +56,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:5](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L5)
+[src/index.ts:5](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/index.ts#L5)
 
 ___
 
@@ -62,13 +66,33 @@ ___
 
 #### Defined in
 
-[src/index.ts:4](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L4)
+[src/index.ts:4](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/index.ts#L4)
 
 ## Functions
 
 ### endpoint
 
 ▸ **endpoint**<`Pattern`, `Method`, `Request`, `Response`\>(`endpoint`): [`Endpoint`](index.md#endpoint)<`Pattern`, `Method`, `Request`, `Response`\>
+
+Helper for defining endpoints so that they end up with the correct types
+without needing to annotate them explicitly.
+
+**`example`**
+```ts
+let myEndpoint = endpoint({
+  path: "/example",
+  method: "get",
+  response: z.object({ id: z.number() }),
+});
+
+// vs
+
+let myEndpoint: Endpoint<"/example", "get", never, { id: number }> = {
+  path: "/example",
+  method: "get",
+  response: z.object({ id: z.number() }),
+};
+```
 
 #### Type parameters
 
@@ -91,4 +115,4 @@ ___
 
 #### Defined in
 
-[src/index.ts:20](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/index.ts#L20)
+[src/index.ts:50](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/index.ts#L50)

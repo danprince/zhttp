@@ -4,6 +4,9 @@
 
 [fetch](../modules/fetch.md).ValidationError
 
+Error class that will be thrown if server-side validation fails a given
+fetch request.
+
 ## Hierarchy
 
 - `Error`
@@ -47,7 +50,7 @@ Error.constructor
 
 #### Defined in
 
-[src/fetch.ts:32](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/fetch.ts#L32)
+[src/fetch.ts:50](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/fetch.ts#L50)
 
 ## Properties
 

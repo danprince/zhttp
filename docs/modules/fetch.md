@@ -8,10 +8,42 @@
 
 - [ValidationError](../classes/fetch.ValidationError.md)
 
+### Interfaces
+
+- [FetchDefaults](../interfaces/fetch.FetchDefaults.md)
+
+### Type aliases
+
+- [FetchOptions](fetch.md#fetchoptions)
+
 ### Functions
 
 - [createClient](fetch.md#createclient)
 - [fetchJson](fetch.md#fetchjson)
+
+## Type aliases
+
+### FetchOptions
+
+Ƭ **FetchOptions**<`Pattern`, `Method`, `Request`\>: `Partial`<[`FetchDefaults`](../interfaces/fetch.FetchDefaults.md)\> & keyof `Params`<`Pattern`\> extends `never` ? {} : { `params`: `Params`<`Pattern`\>  } & `Method` extends [`HttpMethodWithoutBody`](index.md#httpmethodwithoutbody) ? {} : { `body`: `Request`  }
+
+Complete set of options for a given request, based on the parameters and the
+method.
+
+- GET/HEAD methods won't allow a `body` property.
+- Paths without any parameters won't allow a `params` property.
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Pattern` | extends `string` |
+| `Method` | extends [`HttpMethod`](index.md#httpmethod) |
+| `Request` | `Request` |
+
+#### Defined in
+
+[src/fetch.ts:21](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/fetch.ts#L21)
 
 ## Functions
 
@@ -30,7 +62,7 @@
 | Name | Type |
 | :------ | :------ |
 | `exports` | `Exports` |
-| `defaults?` | `Partial`<`FetchDefaults`\> |
+| `defaults?` | `Partial`<[`FetchDefaults`](../interfaces/fetch.FetchDefaults.md)\> |
 
 #### Returns
 
@@ -38,13 +70,47 @@
 
 #### Defined in
 
-[src/fetch.ts:93](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/fetch.ts#L93)
+[src/fetch.ts:161](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/fetch.ts#L161)
 
 ___
 
 ### fetchJson
 
 ▸ **fetchJson**<`Pattern`, `Method`, `Request`, `Response`\>(`endpoint`, `options`): `Promise`<`Response`\>
+
+Fetches JSON from an endpoint.
+
+**`example`** Fetching from an endpoint
+```ts
+let response = await fetchJson(someEndpoint, {
+  baseUrl: "/", // default baseUrl
+  headers: { "Content-type": "application/json" } // default headers
+  options: {}, // default fetch options
+});
+```
+
+**`example`** Passing custom headers
+```ts
+let response = fetchJson(someEndpoint, {
+  headers: {
+    "Content-type": "application/json",
+    "Authentication": "Basic XXYYZZ"
+  }
+});
+```
+Note: Any passed headers will override the default headers, so ensure that
+a `"Content-type": "application/json"` header is present.
+
+**`example`** Custom fetch options
+```ts
+let response = await fetchJson(someEndpoint, {
+  options: {
+    mode: "cors",
+    credentials: "include"
+  },
+});
+```
+These options are passed directly to the request options for `fetch`.
 
 #### Type parameters
 
@@ -57,15 +123,17 @@ ___
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `endpoint` | [`Endpoint`](index.md#endpoint)<`Pattern`, `Method`, `Request`, `Response`\> |
-| `options` | `FetchOptions`<`Pattern`, `Method`, `Request`\> |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `endpoint` | [`Endpoint`](index.md#endpoint)<`Pattern`, `Method`, `Request`, `Response`\> | A zhttp endpoint |
+| `options` | [`FetchOptions`](fetch.md#fetchoptions)<`Pattern`, `Method`, `Request`\> | Request options |
 
 #### Returns
 
 `Promise`<`Response`\>
 
+Parsed server response body
+
 #### Defined in
 
-[src/fetch.ts:38](https://github.com/danprince/typesafe-endpoints/blob/fb10f21/src/fetch.ts#L38)
+[src/fetch.ts:94](https://github.com/danprince/typesafe-endpoints/blob/9d3ac67/src/fetch.ts#L94)
