@@ -4,25 +4,28 @@
   "license": "MIT",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/cjs/index.js"
     },
     "./express": {
       "import": "./dist/esm/express.js",
-      "require": "./dist/cjs/express.js",
-      "types": "./dist/types/express.d.ts"
+      "require": "./dist/cjs/express.js"
     },
     "./fetch": {
       "import": "./dist/esm/fetch.js",
-      "require": "./dist/cjs/fetch.js",
-      "types": "./dist/types/fetch.d.ts"
+      "require": "./dist/cjs/fetch.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "express": ["./dist/types/express.js"],
+      "fetch": ["./dist/types/fetch.js"]
     }
   },
   "scripts": {
-    "prepare": "husky install",
     "build:cjs": "tsc --outDir dist/cjs --module commonjs",
     "build:esm": "tsc --outDir dist/esm --module es2015",
     "build:types": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
@@ -33,8 +36,9 @@
     "docs": "typedoc"
   },
   "dependencies": {
-    "express-promise-router": "^4.1.0",
-    "husky": "^7.0.4",
+    "express-promise-router": "^4.1.0"
+  },
+  "peerDependencies": {
     "static-path": "^0.0.3",
     "zod": "^3.11.6"
   },

@@ -7,9 +7,7 @@ A small library that brings [`zod`][zod], [`express`][express], and [`static-pat
 Install `zhttp` and `express`.
 
 ```sh
-npm i @danprince/zhttp express
-# or
-yarn add @danprince/zhttp express
+npm i @danprince/zhttp express zod static-path
 ```
 
 - `static-path` requires `typescript@^4.1` (for [template literal types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html))
