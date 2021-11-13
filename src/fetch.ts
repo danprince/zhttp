@@ -1,4 +1,5 @@
 import { Params } from "static-path";
+import { ZodIssue } from "zod";
 import { Endpoint, HttpMethod, HttpMethodWithoutBody } from ".";
 
 interface FetchDefaults {
@@ -28,7 +29,7 @@ const defaultOptions: FetchDefaults = {
 };
 
 export class ValidationError extends Error {
-  constructor(public issues: any) {
+  constructor(public issues: ZodIssue[]) {
     super();
     this.name = "ValidationError";
   }
