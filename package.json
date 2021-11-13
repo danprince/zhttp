@@ -29,7 +29,7 @@
     "build": "npm run build:types && npm run build:cjs && npm run build:esm",
     "pretest": "tsc --noEmit",
     "test": "uvu -r tsm tests",
-    "prepublishOnly": "npm run test && rm -r dist && npm run build",
+    "prepublishOnly": "npm run test && rm -r dist && npm run build && npm run docs",
     "docs": "typedoc"
   },
   "dependencies": {
