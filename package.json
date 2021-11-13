@@ -1,6 +1,6 @@
 {
   "name": "@danprince/zhttp",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -33,13 +33,13 @@
     "build:cjs": "tsc --outDir dist/cjs --module commonjs",
     "build:esm": "tsc --outDir dist/esm --module es2015",
     "build:types": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
-    "build": "rm -r dist && npm run build:types && npm run build:cjs && npm run build:esm",
+    "build": "rm -rf dist && npm run build:types && npm run build:cjs && npm run build:esm",
     "pretest": "tsc --noEmit",
     "test": "uvu -r tsm tests",
     "preversion": "npm test",
     "version": "npm run build && npm run docs && git add docs",
     "postversion": "git push && git push --tags",
-    "postpublish": "rm -r dist",
+    "postpublish": "rm -rf dist",
     "docs": "typedoc"
   },
   "dependencies": {
