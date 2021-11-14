@@ -27,25 +27,30 @@ export type Endpoint<
 };
 
 /**
- * Helper for defining endpoints so that they end up with the correct types
- * without needing to annotate them explicitly.
+ * Helper for defining endpoints.
  * 
- * @example
  * ```ts
- * let myEndpoint = endpoint({
- *   path: "/example",
+ * import { endpoint } from "@danprince/zhttp";
+ * import { path } from "static-path";
+ * 
+ * // define GET /examples/:name
+ * export let getExampleByName = endpoint({
  *   method: "get",
- *   response: z.object({ id: z.number() }),
+ *   path: path("/examples/:name"),
+ *   response: z.object({ name: z.string() }),
  * });
  * 
- * // vs
- * 
- * let myEndpoint: Endpoint<"/example", "get", never, { id: number }> = {
- *   path: "/example",
- *   method: "get",
- *   response: z.object({ id: z.number() }),
- * };
+ * // define POST /books/:id
+ * export let updateBook = endpoint({
+ *   method: "post",
+ *   path: path("/books/:id"),
+ *   request: z.object({ title: z.string() }),
+ *   response: z.object({ id: z.string(), title: z.string() }),
+ * });
  * ```
+ * 
+ * It's possible to declare endpoints without this function, but it requires
+ * more duplication of type annotations.
  */
 export function endpoint<
   Pattern extends string,

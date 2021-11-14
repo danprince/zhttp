@@ -2,6 +2,8 @@
 
 # Module: fetch
 
+Functions for calling endpoints from a browser, using [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+
 ## Table of contents
 
 ### Classes
@@ -14,6 +16,7 @@
 
 ### Type aliases
 
+- [Client](fetch.md#client)
 - [FetchOptions](fetch.md#fetchoptions)
 
 ### Functions
@@ -22,6 +25,26 @@
 - [fetchJson](fetch.md#fetchjson)
 
 ## Type aliases
+
+### Client
+
+Ƭ **Client**<`Exports`\>: { [K in keyof Exports as Exports[K] extends Endpoint<any, any, any, any\> ? K : never]: Exports[K] extends Endpoint<infer Pattern, infer Method, infer Request, infer Response\> ? Function : never }
+
+A client wrapper around a module, with the non-export endpoints removed.
+
+**`see`** {createClient}
+
+#### Type parameters
+
+| Name |
+| :------ |
+| `Exports` |
+
+#### Defined in
+
+[src/fetch.ts:153](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L153)
+
+___
 
 ### FetchOptions
 
@@ -43,13 +66,83 @@ method.
 
 #### Defined in
 
-[src/fetch.ts:21](https://github.com/danprince/zhttp/blob/94de2ce/src/fetch.ts#L21)
+[src/fetch.ts:26](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L26)
 
 ## Functions
 
 ### createClient
 
-▸ **createClient**<`Exports`\>(`exports`, `defaults?`): `Client`<`Exports`\>
+▸ **createClient**<`Exports`\>(`exports`, `defaults?`): [`Client`](fetch.md#client)<`Exports`\>
+
+Creates a client from a module which exports endpoints.
+
+**`example`**
+
+First define some endpoints.
+
+```ts
+// shared/endpoints/account.ts
+import { endpoint } from "@danprince/zhttp";
+
+export const create = endpoint({
+  path: path("/account"),
+  method: "put",
+  request: z.object({ email: z.string() }),
+  response: z.object({ id: z.string(), email: z.string() })
+});
+
+export const update = endpoint({
+  path: path("/account/:id"),
+  method: "post",
+  request: z.object({ email: z.string() }),
+  response: z.object({ id: z.string(), email: z.string() })
+});
+
+export const delete = endpoint({
+  path: path("/account/:id"),
+  method: "delete",
+  request: z.any(),
+  response: z.any(),
+});
+```
+
+Then import them to create the client.
+
+```ts
+// client/example.ts
+import { createClient } from "@danprince/zhttp/fetch";
+import * as accountEndpoints from "../shared/endpoints/account"
+
+export const Accounts = createClient(accountEndpoints);
+
+let account = await Accounts.create({
+  body: { email: "example@test.com" },
+});
+
+account = await Accounts.update({
+  params: { id: account.id },
+  body: { email: "newemail@test.com" },
+});
+
+await Accounts.delete({
+  params: { id: account.id },
+});
+```
+
+**`example`** Setting default options for all client requests.
+
+```ts
+createClient(endpoints, {
+  // Base url for all requests (defaults to /)
+  baseUrl: "http://localhost:3000/api",
+
+  // Headers to pass for all requests
+  headers: {},
+
+  // Fetch options (second argument to fetch)
+  options: {},
+});
+```
 
 #### Type parameters
 
@@ -66,11 +159,11 @@ method.
 
 #### Returns
 
-`Client`<`Exports`\>
+[`Client`](fetch.md#client)<`Exports`\>
 
 #### Defined in
 
-[src/fetch.ts:161](https://github.com/danprince/zhttp/blob/94de2ce/src/fetch.ts#L161)
+[src/fetch.ts:231](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L231)
 
 ___
 
@@ -98,6 +191,7 @@ let response = fetchJson(someEndpoint, {
   }
 });
 ```
+
 Note: Any passed headers will override the default headers, so ensure that
 a `"Content-type": "application/json"` header is present.
 
@@ -110,7 +204,16 @@ let response = await fetchJson(someEndpoint, {
   },
 });
 ```
+
 These options are passed directly to the request options for `fetch`.
+
+**`example`** Validation errors
+The type system will usually enforce validation and you won't see any errors.
+
+However, if you allow untyped data to go over the network, then server side
+middleware will catch it before making it into your route handlers and a
+client side [`ValidationError`](./docs/classes/fetch.ValidationError.md)
+will be thrown.
 
 #### Type parameters
 
@@ -136,4 +239,4 @@ Parsed server response body
 
 #### Defined in
 
-[src/fetch.ts:94](https://github.com/danprince/zhttp/blob/94de2ce/src/fetch.ts#L94)
+[src/fetch.ts:109](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L109)

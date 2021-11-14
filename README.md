@@ -1,7 +1,11 @@
 # zhttp
 A small library that brings [`zod`][zod], [`express`][express], and [`static-path`][static-path] together to create type safe HTTP endpoints for clients and servers.
 
-* [Reference](./docs)
+- [Reference](./docs)
+  - [`endpoint`](./docs/modules/index#endpoint)
+  - [`createRouter`](./docs/modules/express#createRouter)
+  - [`fetchJson`](./docs/modules/fetch#fetchJson)
+  - [`createClient`](./docs/modules/fetch#createClient)
 
 ## Getting Started
 Install `zhttp` and its peer dependencies.
@@ -86,106 +90,6 @@ let res = await fetchJson(sendMessage, {
 // Type safe response
 res.status
 ```
-
-## Creating a Client
-
-You can create a client from a module which exports endpoints.
-
-```ts
-// shared/endpoints/account.ts
-import { endpoint } from "@danprince/zhttp";
-
-export const create = endpoint({
-  path: path("/account"),
-  method: "put",
-  request: z.object({ email: z.string() }),
-  response: z.object({ id: z.string(), email: z.string() })
-});
-
-export const update = endpoint({
-  path: path("/account/:id"),
-  method: "post",
-  request: z.object({ email: z.string() }),
-  response: z.object({ id: z.string(), email: z.string() })
-});
-
-export const delete = endpoint({
-  path: path("/account/:id"),
-  method: "delete",
-  request: z.any(),
-  response: z.any(),
-});
-```
-
-Then create the client in your client-side codebase:
-
-```ts
-// client/example.ts
-import { createClient } from "@danprince/zhttp/fetch";
-import * as accountEndpoints from "../shared/endpoints/account"
-
-export const Accounts = createClient(accountEndpoints);
-
-let account = await Accounts.create({
-  body: { email: "example@test.com" },
-});
-
-account = await Accounts.update({
-  params: { id: account.id },
-  body: { email: "newemail@test.com" },
-});
-
-await Accounts.delete({
-  params: { id: account.id },
-});
-```
-
-## Fetch Options
-It's possible to override the default fetch options for a given request.
-
-```ts
-fetchJson(endpoint, {
-  // Base url for all this request (defaults to /)
-  baseUrl: "http://localhost:3000/api",
-
-  // Headers to pass for all requests
-  headers: {},
-
-  // Fetch options (second argument to fetch)
-  options: {},
-});
-```
-
-It's also possible to set default options for all client requests.
-
-```ts
-createClient(endpoints, {
-  // Base url for all requests (defaults to /)
-  baseUrl: "http://localhost:3000/api",
-
-  // Headers to pass for all requests
-  headers: {},
-
-  // Fetch options (second argument to fetch)
-  options: {},
-});
-```
-
-## Middleware
-The router can accept standard Express middleware before the request handler.
-
-```ts
-router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
-  // ...
-});
-```
-
-Note: The [`Express.json()`](http://expressjs.com/en/api.html#express.json) middleware is automatically added to each route.
-
-## Validation Errors
-The type system will usually enforce validation and you won't see any errors.
-
-However, if you allow untyped data to go over the network, then server side middleware will catch it before making it into your route handlers and a client side [`ValidationError`](./docs/classes/fetch.ValidationError.md) will be thrown.
 
 [express]: https://github.com/expressjs/express
 [zod]: https://github.com/colinhacks/zod

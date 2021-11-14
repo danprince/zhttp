@@ -36,7 +36,7 @@ Definition for a typed HTTP endpoint.
 
 #### Defined in
 
-[src/index.ts:13](https://github.com/danprince/zhttp/blob/94de2ce/src/index.ts#L13)
+[src/index.ts:13](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L13)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:6](https://github.com/danprince/zhttp/blob/94de2ce/src/index.ts#L6)
+[src/index.ts:6](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L6)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:5](https://github.com/danprince/zhttp/blob/94de2ce/src/index.ts#L5)
+[src/index.ts:5](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L5)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:4](https://github.com/danprince/zhttp/blob/94de2ce/src/index.ts#L4)
+[src/index.ts:4](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L4)
 
 ## Functions
 
@@ -74,25 +74,30 @@ ___
 
 ▸ **endpoint**<`Pattern`, `Method`, `Request`, `Response`\>(`endpoint`): [`Endpoint`](index.md#endpoint)<`Pattern`, `Method`, `Request`, `Response`\>
 
-Helper for defining endpoints so that they end up with the correct types
-without needing to annotate them explicitly.
+Helper for defining endpoints.
 
-**`example`**
 ```ts
-let myEndpoint = endpoint({
-  path: "/example",
+import { endpoint } from "@danprince/zhttp";
+import { path } from "static-path";
+
+// define GET /examples/:name
+export let getExampleByName = endpoint({
   method: "get",
-  response: z.object({ id: z.number() }),
+  path: path("/examples/:name"),
+  response: z.object({ name: z.string() }),
 });
 
-// vs
-
-let myEndpoint: Endpoint<"/example", "get", never, { id: number }> = {
-  path: "/example",
-  method: "get",
-  response: z.object({ id: z.number() }),
-};
+// define POST /books/:id
+export let updateBook = endpoint({
+  method: "post",
+  path: path("/books/:id"),
+  request: z.object({ title: z.string() }),
+  response: z.object({ id: z.string(), title: z.string() }),
+});
 ```
+
+It's possible to declare endpoints without this function, but it requires
+more duplication of type annotations.
 
 #### Type parameters
 
@@ -115,4 +120,4 @@ let myEndpoint: Endpoint<"/example", "get", never, { id: number }> = {
 
 #### Defined in
 
-[src/index.ts:50](https://github.com/danprince/zhttp/blob/94de2ce/src/index.ts#L50)
+[src/index.ts:55](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L55)

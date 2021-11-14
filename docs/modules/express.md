@@ -41,7 +41,7 @@ let withAuth: RequestHandler<typeof logout> = (req, res) => {
 
 #### Defined in
 
-[src/express.ts:21](https://github.com/danprince/zhttp/blob/94de2ce/src/express.ts#L21)
+[src/express.ts:21](https://github.com/danprince/zhttp/blob/01efeb1/src/express.ts#L21)
 
 ## Functions
 
@@ -67,6 +67,16 @@ use(endpoint, (req, res) => {});
 router.post(...);
 ```
 
+**`example`** Using middleware
+
+```ts
+router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
+  // ...
+});
+```
+
+Note: The [`Express.json()`](http://expressjs.com/en/api.html#express.json) middleware is automatically added to each route.
+
 #### Parameters
 
 | Name | Type | Description |
@@ -81,4 +91,4 @@ A typed router
 
 #### Defined in
 
-[src/express.ts:82](https://github.com/danprince/zhttp/blob/94de2ce/src/express.ts#L82)
+[src/express.ts:93](https://github.com/danprince/zhttp/blob/01efeb1/src/express.ts#L93)

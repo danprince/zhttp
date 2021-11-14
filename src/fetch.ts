@@ -1,3 +1,8 @@
+/**
+ * Functions for calling endpoints from a browser, using [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch).
+ * @module
+ */
+
 import { Params } from "static-path";
 import { ZodIssue } from "zod";
 import { Endpoint, HttpMethod, HttpMethodWithoutBody } from ".";
@@ -77,6 +82,7 @@ export class ValidationError extends Error {
  *   }
  * });
  * ```
+ * 
  * Note: Any passed headers will override the default headers, so ensure that
  * a `"Content-type": "application/json"` header is present.
  * 
@@ -89,7 +95,16 @@ export class ValidationError extends Error {
  *   },
  * });
  * ```
+ * 
  * These options are passed directly to the request options for `fetch`.
+ * 
+ * @example Validation errors
+ * The type system will usually enforce validation and you won't see any errors.
+ * 
+ * However, if you allow untyped data to go over the network, then server side
+ * middleware will catch it before making it into your route handlers and a
+ * client side [`ValidationError`](./docs/classes/fetch.ValidationError.md)
+ * will be thrown.
  */
 export async function fetchJson<
   Pattern extends string,
@@ -131,32 +146,87 @@ export async function fetchJson<
 }
 
 /**
- * Describes a client object
+ * A client wrapper around a module, with the non-export endpoints removed.
+ * 
+ * @see {createClient}
  */
-type Client<Exports> = {
+export type Client<Exports> = {
   [K in keyof Exports as Exports[K] extends Endpoint<any, any, any, any> ? K : never]:
     Exports[K] extends Endpoint<infer Pattern, infer Method, infer Request, infer Response>
-      ? ClientFetch<Pattern, Method, Request, Response>
+      ? (options: FetchOptions<Pattern, Method, Request>) => Promise<Response>
       : never;
 };
 
 /**
+ * Creates a client from a module which exports endpoints.
  * 
- */
-type ClientFetch<
-  Pattern extends string,
-  Method extends HttpMethod,
-  Request,
-  Response
-> = (
-  options: FetchOptions<Pattern, Method, Request>
-) => Promise<Response>;
-
-/**
+ * @example
  * 
- * @param exports 
- * @param defaults 
- * @returns 
+ * First define some endpoints.
+ * 
+ * ```ts
+ * // shared/endpoints/account.ts
+ * import { endpoint } from "@danprince/zhttp";
+ * 
+ * export const create = endpoint({
+ *   path: path("/account"),
+ *   method: "put",
+ *   request: z.object({ email: z.string() }),
+ *   response: z.object({ id: z.string(), email: z.string() })
+ * });
+ * 
+ * export const update = endpoint({
+ *   path: path("/account/:id"),
+ *   method: "post",
+ *   request: z.object({ email: z.string() }),
+ *   response: z.object({ id: z.string(), email: z.string() })
+ * });
+ * 
+ * export const delete = endpoint({
+ *   path: path("/account/:id"),
+ *   method: "delete",
+ *   request: z.any(),
+ *   response: z.any(),
+ * });
+ * ```
+ * 
+ * Then import them to create the client.
+ * 
+ * ```ts
+ * // client/example.ts
+ * import { createClient } from "@danprince/zhttp/fetch";
+ * import * as accountEndpoints from "../shared/endpoints/account"
+ * 
+ * export const Accounts = createClient(accountEndpoints);
+ * 
+ * let account = await Accounts.create({
+ *   body: { email: "example@test.com" },
+ * });
+ * 
+ * account = await Accounts.update({
+ *   params: { id: account.id },
+ *   body: { email: "newemail@test.com" },
+ * });
+ * 
+ * await Accounts.delete({
+ *   params: { id: account.id },
+ * });
+ * ```
+ * 
+ * @example Setting default options for all client requests.
+ *
+ * ```ts
+ * createClient(endpoints, {
+ *   // Base url for all requests (defaults to /)
+ *   baseUrl: "http://localhost:3000/api",
+ * 
+ *   // Headers to pass for all requests
+ *   headers: {},
+ * 
+ *   // Fetch options (second argument to fetch)
+ *   options: {},
+ * });
+ * ```
  */
 export function createClient<Exports extends Record<string, any>>(
   exports: Exports,

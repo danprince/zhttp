@@ -61,6 +61,7 @@ export interface Router {
  * 
  * @param expressRouter Optional instance of an Express.Router to use
  * @returns A typed router
+ * 
  * @example Creating a router
  * 
  * ```ts
@@ -78,6 +79,16 @@ export interface Router {
  * use(endpoint, (req, res) => {});
  * router.post(...);
  * ```
+ * 
+ * @example Using middleware
+ * 
+ * ```ts
+ * router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
+ *   // ...
+ * });
+ * ```
+ * 
+ * Note: The [`Express.json()`](http://expressjs.com/en/api.html#express.json) middleware is automatically added to each route.
  */
 export function createRouter(expressRouter = PromiseRouter()): Router {
   return {
