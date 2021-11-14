@@ -46,11 +46,12 @@
     "express-promise-router": "^4.1.0"
   },
   "peerDependencies": {
-    "static-path": "^0.0.3",
-    "zod": "^3.11.6"
+    "static-path": "0.x",
+    "zod": "3.x"
   },
   "optionalDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.0.29",
+    "@types/express": "^4.0.29"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

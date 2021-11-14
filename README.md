@@ -4,10 +4,10 @@ A small library that brings [`zod`][zod], [`express`][express], and [`static-pat
 * [Reference](./docs)
 
 ## Getting Started
-Install `zhttp` and `express`.
+Install `zhttp` and its peer dependencies.
 
 ```sh
-npm i @danprince/zhttp express zod static-path
+npm i @danprince/zhttp express @types/express zod static-path
 ```
 
 - `static-path` requires `typescript@^4.1` (for [template literal types](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html))
