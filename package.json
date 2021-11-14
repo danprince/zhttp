@@ -1,6 +1,6 @@
 {
   "name": "@danprince/zhttp",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Typesafe HTTP endpoints with express, zod, and static-path",
   "repository": {
     "type": "git",

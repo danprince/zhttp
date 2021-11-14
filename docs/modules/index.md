@@ -36,7 +36,7 @@ Definition for a typed HTTP endpoint.
 
 #### Defined in
 
-[src/index.ts:13](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L13)
+[src/index.ts:13](https://github.com/danprince/zhttp/blob/98e9a8e/src/index.ts#L13)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:6](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L6)
+[src/index.ts:6](https://github.com/danprince/zhttp/blob/98e9a8e/src/index.ts#L6)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:5](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L5)
+[src/index.ts:5](https://github.com/danprince/zhttp/blob/98e9a8e/src/index.ts#L5)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[src/index.ts:4](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L4)
+[src/index.ts:4](https://github.com/danprince/zhttp/blob/98e9a8e/src/index.ts#L4)
 
 ## Functions
 
@@ -120,4 +120,4 @@ more duplication of type annotations.
 
 #### Defined in
 
-[src/index.ts:55](https://github.com/danprince/zhttp/blob/01efeb1/src/index.ts#L55)
+[src/index.ts:55](https://github.com/danprince/zhttp/blob/98e9a8e/src/index.ts#L55)

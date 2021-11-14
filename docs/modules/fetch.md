@@ -42,7 +42,7 @@ A client wrapper around a module, with the non-export endpoints removed.
 
 #### Defined in
 
-[src/fetch.ts:153](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L153)
+[src/fetch.ts:153](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L153)
 
 ___
 
@@ -66,7 +66,7 @@ method.
 
 #### Defined in
 
-[src/fetch.ts:26](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L26)
+[src/fetch.ts:26](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L26)
 
 ## Functions
 
@@ -163,7 +163,7 @@ createClient(endpoints, {
 
 #### Defined in
 
-[src/fetch.ts:231](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L231)
+[src/fetch.ts:231](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L231)
 
 ___
 
@@ -239,4 +239,4 @@ Parsed server response body
 
 #### Defined in
 
-[src/fetch.ts:109](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L109)
+[src/fetch.ts:109](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L109)

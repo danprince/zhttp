@@ -28,7 +28,7 @@ Returns the underlying Express.Router.
 
 #### Defined in
 
-[src/express.ts:33](https://github.com/danprince/zhttp/blob/01efeb1/src/express.ts#L33)
+[src/express.ts:33](https://github.com/danprince/zhttp/blob/98e9a8e/src/express.ts#L33)
 
 ___
 
@@ -62,4 +62,4 @@ Add request handlers to an [Endpoint](../modules/index.md#endpoint).
 
 #### Defined in
 
-[src/express.ts:41](https://github.com/danprince/zhttp/blob/01efeb1/src/express.ts#L41)
+[src/express.ts:41](https://github.com/danprince/zhttp/blob/98e9a8e/src/express.ts#L41)

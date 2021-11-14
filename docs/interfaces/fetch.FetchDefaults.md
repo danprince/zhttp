@@ -22,7 +22,7 @@ Default options for all fetch methods.
 
 #### Defined in
 
-[src/fetch.ts:14](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L14)
+[src/fetch.ts:14](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L14)
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 #### Defined in
 
-[src/fetch.ts:15](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L15)
+[src/fetch.ts:15](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L15)
 
 ___
 
@@ -42,4 +42,4 @@ ___
 
 #### Defined in
 
-[src/fetch.ts:16](https://github.com/danprince/zhttp/blob/01efeb1/src/fetch.ts#L16)
+[src/fetch.ts:16](https://github.com/danprince/zhttp/blob/98e9a8e/src/fetch.ts#L16)
