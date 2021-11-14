@@ -1,6 +1,15 @@
 {
   "name": "@danprince/zhttp",
   "version": "0.0.5",
+  "description": "Typesafe HTTP endpoints with express, zod, and static-path",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danprince/zhttp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danprince/zhttp/issues"
+  },
+  "homepage": "https://github.com/danprince/zhttp#readme",
   "license": "MIT",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
