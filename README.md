@@ -2,10 +2,10 @@
 A small library that brings [`zod`][zod], [`express`][express], and [`static-path`][static-path] together to create type safe HTTP endpoints for clients and servers.
 
 - [Reference](./docs)
-  - [`endpoint`](./docs/modules/index#endpoint)
-  - [`createRouter`](./docs/modules/express#createRouter)
-  - [`fetchJson`](./docs/modules/fetch#fetchJson)
-  - [`createClient`](./docs/modules/fetch#createClient)
+  - [`endpoint`](./docs/modules/index.md#endpoint)
+  - [`createRouter`](./docs/modules/express.md#createRouter)
+  - [`fetchJson`](./docs/modules/fetch.md#fetchJson)
+  - [`createClient`](./docs/modules/fetch.md#createClient)
 
 ## Getting Started
 Install `zhttp` and its peer dependencies.
