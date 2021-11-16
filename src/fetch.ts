@@ -32,7 +32,7 @@ export type FetchOptions<
   // Only include the params key if the pattern actually has params
   (keyof Params<Pattern> extends never ? {} : { params: Params<Pattern> }) &
   // Only include the body key if the http method can accept a body
-  (Method extends HttpMethodWithoutBody ? {} : { body: Request })
+  (Method extends HttpMethodWithoutBody ? {} : Request extends unknown ? {} : { body: Request })
 );
 
 /**
