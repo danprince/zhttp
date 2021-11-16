@@ -97,8 +97,8 @@ export function createRouter(expressRouter = PromiseRouter()): Router {
     use(endpoint, ...handlers) {
       const validateRequest: Express.RequestHandler = (req, res, next) => {
         // Skip validation if this endpoint does not have a request schema
-        // (E.g. it's method is GET/HEAD)
-        if ("request" in endpoint) {
+        // (E.g. it's method is GET/HEAD, or the user didn't provide one)
+        if ("request" in endpoint && endpoint.request != null) {
           const result = endpoint.request.safeParse(req.body);
 
           /**

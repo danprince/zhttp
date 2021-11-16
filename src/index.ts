@@ -18,8 +18,8 @@ export type Endpoint<
 > = Method extends HttpMethodWithBody ? {
   path: Path<Pattern>;
   method: Method;
+  request?: z.ZodType<Request>;
   response: z.ZodType<Response>;
-  request: z.ZodType<Request>;
 } : {
   path: Path<Pattern>;
   method: Method;
