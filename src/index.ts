@@ -1,6 +1,8 @@
 import type { z } from "zod";
 import type { Path } from "static-path";
 
+export type BaseQuery = Record<string, string>;
+
 export type HttpMethodWithoutBody = "get" | "head";
 export type HttpMethodWithBody = "post" | "put" | "patch" | "delete" | "options";
 export type HttpMethod = HttpMethodWithBody | HttpMethodWithoutBody;
@@ -14,16 +16,19 @@ export type Endpoint<
   Pattern extends string,
   Method extends HttpMethod,
   Request,
-  Response
+  Response,
+  Query extends BaseQuery,
 > = Method extends HttpMethodWithBody ? {
   path: Path<Pattern>;
   method: Method;
   response: z.ZodType<Response>;
   request: z.ZodType<Request>;
+  query?: z.ZodType<Query>;
 } : {
   path: Path<Pattern>;
   method: Method;
   response: z.ZodType<Response>;
+  query?: z.ZodType<Query>;
 };
 
 /**
@@ -57,8 +62,9 @@ export function endpoint<
   Method extends HttpMethod,
   Request,
   Response,
+  Query extends BaseQuery = never,
 >(
-  endpoint: Endpoint<Pattern, Method, Request, Response>
+  endpoint: Endpoint<Pattern, Method, Request, Response, Query>
 ) {
   return endpoint;
 }

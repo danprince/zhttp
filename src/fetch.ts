@@ -5,7 +5,7 @@
 
 import { Params } from "static-path";
 import { ZodIssue } from "zod";
-import { Endpoint, HttpMethod, HttpMethodWithoutBody } from ".";
+import { Endpoint, HttpMethod, HttpMethodWithoutBody, BaseQuery } from ".";
 
 /**
  * Default options for all fetch methods.
@@ -27,10 +27,13 @@ export type FetchOptions<
   Pattern extends string,
   Method extends HttpMethod,
   Request,
+  Query extends BaseQuery,
 > = (
   Partial<FetchDefaults> &
   // Only include the params key if the pattern actually has params
   (keyof Params<Pattern> extends never ? {} : { params: Params<Pattern> }) &
+  // Only include the query key if the endpoint actually has a query
+  ([Query] extends [never] ? {} : { query: Query }) &
   // Only include the body key if the http method can accept a body
   (Method extends HttpMethodWithoutBody ? {} : { body: Request })
 );
@@ -110,22 +113,25 @@ export async function fetchJson<
   Pattern extends string,
   Method extends HttpMethod,
   Request,
-  Response
+  Response,
+  Query extends BaseQuery,
 >(
-  endpoint: Endpoint<Pattern, Method, Request, Response>,
-  options: FetchOptions<Pattern, Method, Request>
+  endpoint: Endpoint<Pattern, Method, Request, Response, Query>,
+  options: FetchOptions<Pattern, Method, Request, Query>
 ): Promise<Response> {
   let {
     baseUrl,
     headers,
     body = undefined,
     params = {},
+    query = {},
     options: extraFetchOptions,
   } = { ...defaultOptions, ...options };
 
   // Construct full url from base url and parameterized path
   let path = endpoint.path(params as Params<Pattern>);
-  let url = new URL(path, baseUrl).toString();
+  let pathWithQuery = `${path}${toQueryString(query)}`
+  let url = new URL(pathWithQuery, baseUrl).toString();
 
   let init: RequestInit = {
     method: endpoint.method,
@@ -151,9 +157,9 @@ export async function fetchJson<
  * @see {createClient}
  */
 export type Client<Exports> = {
-  [K in keyof Exports as Exports[K] extends Endpoint<any, any, any, any> ? K : never]:
-    Exports[K] extends Endpoint<infer Pattern, infer Method, infer Request, infer Response>
-      ? (options: FetchOptions<Pattern, Method, Request>) => Promise<Response>
+  [K in keyof Exports as Exports[K] extends Endpoint<any, any, any, any, any> ? K : never]:
+    Exports[K] extends Endpoint<infer Pattern, infer Method, infer Request, infer Response, infer Query>
+      ? (options: FetchOptions<Pattern, Method, Request, Query>) => Promise<Response>
       : never;
 };
 
@@ -250,3 +256,19 @@ export function createClient<Exports extends Record<string, any>>(
 
   return client;
 }
+
+const toQueryString = (query: BaseQuery) => {
+  let entries = Object.entries(query);
+
+  if (entries.length === 0) {
+    return "";
+  }
+
+  let params = new URLSearchParams();
+
+  for (let [key, value] of entries) {
+    params.append(key, value);
+  }
+
+  return `?${params.toString()}`;
+};
