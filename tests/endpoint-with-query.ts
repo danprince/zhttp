@@ -14,7 +14,7 @@ endpoint({
   response: z.object({
     results: z.any(),
   }),
-  // @ts-expect-error (query string with non-string types)
+  // @ts-expect-error (query string with invalid types)
   query: z.object({
     hello: z.boolean(),
   }),
@@ -31,10 +31,25 @@ const search = endpoint({
   }),
 });
 
+const echo = endpoint({
+  path: path("/echo"),
+  method: "get",
+  query: z.object({
+    name: z.string(),
+  }),
+  response: z.object({
+    name: z.string(),
+  }),
+});
+
 let router = createRouter();
 
 router.use(search, (req, res) => {
   res.json({ results: `Searched for ${req.query.for}` });
+});
+
+router.use(echo, (req, res) => {
+  res.json(req.query);
 });
 
 test("endpoint with query", async () => {
@@ -83,6 +98,16 @@ test("endpoint with query", async () => {
         }
       ]);
     }
+  }
+
+  {
+    let response = await fetchJson(echo, {
+      baseUrl,
+      // @ts-expect-error
+      query: { name: "Naboo", familiar: "Bollo" },
+    });
+
+    assert.equal(response, { name: "Naboo" });
   }
 
   await done();
