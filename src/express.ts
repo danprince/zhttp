@@ -5,22 +5,8 @@
 
 import Express from "express";
 import { Params } from "static-path";
-import { Endpoint, HttpMethod } from ".";
+import { Endpoint, HttpMethod, BaseQuery } from ".";
 import PromiseRouter from "express-promise-router";
-
-/**
- * Helper type that will infer the correct type for an endpoint request handler.
- * 
- * @example
- * ```ts
- * let withAuth: RequestHandler<typeof logout> = (req, res) => {
- *   // req, res are typed for the logout endpoint
- * };
- * ```
- */
-export type RequestHandler<E extends Endpoint<any, any, any, any>> =
-  E extends Endpoint<infer Pattern, any, infer Request, infer Response>
-    ? Express.RequestHandler<Params<Pattern>, Response, Request> : never;
 
 /**
  * A wrapper for Express.Router that can associate request handlers with
@@ -43,10 +29,10 @@ export interface Router {
     Method extends HttpMethod,
     Request,
     Response,
-    Query extends qs.ParsedQs,
+    Query extends BaseQuery,
     Locals extends Record<string, any>
   >(
-    endpoint: Endpoint<Pattern, Method, Request, Response>,
+    endpoint: Endpoint<Pattern, Method, Request, Response, Query>,
     ...handlers: Express.RequestHandler<
       Params<Pattern>,
       Response,
@@ -95,26 +81,40 @@ export function createRouter(expressRouter = PromiseRouter()): Router {
     routes: () => expressRouter,
 
     use(endpoint, ...handlers) {
-      const validateRequest: Express.RequestHandler = (req, res, next) => {
+      const validateQuery: Express.RequestHandler = (req, res, next) => {
         // Skip validation if this endpoint does not have a request schema
-        // (E.g. it's method is GET/HEAD)
-        if ("request" in endpoint) {
-          const result = endpoint.request.safeParse(req.body);
+        if ("query" in endpoint && endpoint.query) {
+          const result = endpoint.query.safeParse(req.query);
 
-          /**
-           * If the schema check fails then respond with an error that the
-           * client can recognise as a validation error.
-           */
+          // If the schema check fails then respond with an error that the
+          // client can recognise as a validation error.
           if (result.success === false) {
             return res.status(400).json({
               errors: result.error.issues,
             });
           }
 
-          /**
-           * Replace the body with the parser results, to strip unrecognized
-           * properties etc.
-           */
+          // Replace the query with the parse result
+          req.query = result.data;
+        }
+
+        next();
+      };
+
+      const validateRequest: Express.RequestHandler = (req, res, next) => {
+        // Skip validation if this endpoint does not have a request schema
+        if ("request" in endpoint) {
+          const result = endpoint.request.safeParse(req.body);
+
+          // If the schema check fails then respond with an error that the
+          // client can recognise as a validation error.
+          if (result.success === false) {
+            return res.status(400).json({
+              errors: result.error.issues,
+            });
+          }
+
+          // Replace the body with the parse result
           req.body = result.data;
         }
 
@@ -130,6 +130,7 @@ export function createRouter(expressRouter = PromiseRouter()): Router {
       expressRouter[endpoint.method](
         endpoint.path.pattern,
         Express.json(),
+        validateQuery,
         validateRequest,
         ...handlers
       );

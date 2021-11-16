@@ -43,7 +43,7 @@
     "build:esm": "tsc --outDir dist/esm --module es2015",
     "build:types": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
     "build": "rm -rf dist && npm run build:types && npm run build:cjs && npm run build:esm",
-    "pretest": "tsc --noEmit",
+    "pretest": "tsc --project tsconfig.test.json",
     "test": "uvu -r tsm tests",
     "preversion": "npm test",
     "version": "npm run build && npm run docs && git add docs",
