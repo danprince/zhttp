@@ -10,7 +10,7 @@ import PromiseRouter from "express-promise-router";
 
 /**
  * Helper type that will infer the correct type for an endpoint request handler.
- * 
+ *
  * @example
  * ```ts
  * let withAuth: RequestHandler<typeof logout> = (req, res) => {
@@ -20,21 +20,38 @@ import PromiseRouter from "express-promise-router";
  */
 export type RequestHandler<E extends Endpoint<any, any, any, any>> =
   E extends Endpoint<infer Pattern, any, infer Request, infer Response>
-    ? Express.RequestHandler<Params<Pattern>, Response, Request> : never;
+    ? Express.RequestHandler<Params<Pattern>, Response, Request>
+    : never;
+
+type BaseQuery = qs.ParsedQs;
+type BaseLocals = Record<string, any>;
 
 /**
  * A wrapper for Express.Router that can associate request handlers with
  * endpoints in a type safe way.
  */
-export interface Router {
+export interface Router<
+  RouterLocals extends BaseLocals,
+  RouterQuery extends BaseQuery
+> {
   /**
    * Returns the underlying Express.Router.
    */
   routes(): Express.Router;
 
   /**
+   * Set the type of res.locals for subsequent routes.
+   */
+  locals<Locals extends BaseLocals>(): Router<Locals, RouterQuery>;
+
+  /**
+   * Set the type of res.query for subsequent routes.
+   */
+  query<Query extends BaseQuery>(): Router<RouterLocals, Query>;
+
+  /**
    * Add request handlers to an {@link Endpoint}.
-   * 
+   *
    * @param endpoint Endpoint to handle
    * @param handlers Express middleware/request handlers
    */
@@ -43,8 +60,8 @@ export interface Router {
     Method extends HttpMethod,
     Request,
     Response,
-    Query extends qs.ParsedQs,
-    Locals extends Record<string, any>
+    Query = RouterQuery,
+    Locals = RouterLocals
   >(
     endpoint: Endpoint<Pattern, Method, Request, Response>,
     ...handlers: Express.RequestHandler<
@@ -58,41 +75,49 @@ export interface Router {
 }
 
 /**
- * 
+ *
  * @param expressRouter Optional instance of an Express.Router to use
  * @returns A typed router
- * 
+ *
  * @example Creating a router
- * 
+ *
  * ```ts
- * let router = createRouter(); 
+ * let router = createRouter();
  * router.use(endpoint, (req, res) => {});
  * ```
- * 
+ *
  * @example Using an existing router
- * 
+ *
  * ```ts
  * // router is an existing Express.Router
  * let { use } = createRouter(router);
- * 
+ *
  * router.post(...);
  * use(endpoint, (req, res) => {});
  * router.post(...);
  * ```
- * 
+ *
  * @example Using middleware
- * 
+ *
  * ```ts
  * router.use(someEndpoint, withAuth, withAccount, async (req, res) => {
  *   // ...
  * });
  * ```
- * 
+ *
  * Note: The [`Express.json()`](http://expressjs.com/en/api.html#express.json) middleware is automatically added to each route.
  */
-export function createRouter(expressRouter = PromiseRouter()): Router {
+export function createRouter(expressRouter = PromiseRouter()): Router<any, any> {
   return {
     routes: () => expressRouter,
+
+    locals() {
+      return this;
+    },
+
+    query() {
+      return this;
+    },
 
     use(endpoint, ...handlers) {
       const validateRequest: Express.RequestHandler = (req, res, next) => {
